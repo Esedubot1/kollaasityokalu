@@ -52,7 +52,7 @@ export default function Canvas() {
         imageSmoothingEnabled: false
       })
 
-      canvas.setDimensions({width: `${ratio.width * 0.15}px`, height: `${ratio.height * 0.15}px`}, {cssOnly: true})
+      canvas.setDimensions({width: `${ratio.width * 0.1}px`, height: `${ratio.height * 0.1}px`}, {cssOnly: true})
 
       // 1.1 Clone canvas
       setCanvasAction(canvas)
@@ -176,9 +176,9 @@ export default function Canvas() {
   }, [activeRatioIndex, activeTemplateIndex])
 
   return (
-    <div className="transform scale-1" ref={wrapperRef}>
-      <div className="flex items-start justify-center py-2 sm:min-h-screen sm:py-8 scale-1">
-        <canvas ref={canvasRef} className="scale-1" />
+    <div ref={wrapperRef}>
+      <div className="flex items-start justify-center py-2 sm:min-h-screen sm:py-8">
+        <canvas ref={canvasRef} />
       </div>
       <div className="hidden">
         <input ref={inputRef} type="file" accept="image/*" className="hidden" />
