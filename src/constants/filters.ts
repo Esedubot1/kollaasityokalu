@@ -32,7 +32,7 @@ export const filters: FilterControlType[] = [
   },
   {
     id: "Saturation",
-    min: 0,
+    min: -1,
     max: 1,
     step: 0.002,
     newFilter: (value) => new fabricFilter.Saturation({
