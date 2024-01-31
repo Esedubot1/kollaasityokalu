@@ -52,7 +52,7 @@ export default function Canvas() {
         imageSmoothingEnabled: false
       })
 
-      canvas.setDimensions({width: `${ratio.width * 0.1}px`, height: `${ratio.height * 0.1}px`}, {cssOnly: true})
+      canvas.setDimensions({width: `${ratio.width * 0.12}px`, height: `${ratio.height * 0.12}px`}, {cssOnly: true})
 
       // 1.1 Clone canvas
       setCanvasAction(canvas)
