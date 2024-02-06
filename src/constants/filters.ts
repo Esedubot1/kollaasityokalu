@@ -4,18 +4,9 @@ import { filters as fabricFilter } from "fabric"
 
 export const filters: FilterControlType[] = [
   {
-    id: "Noise",
-    min: 0,
-    max: 100,
-    step: 1,
-    newFilter: (value) => new fabricFilter.Noise({
-      noise: value
-    }) as fabricFilterType.BaseFilter
-  },
-  {
     id: "Brightness",
-    min: 0,
-    max: 0.6,
+    min: -1,
+    max: 1,
     step: 0.002,
     newFilter: (value) => new fabricFilter.Brightness({
       brightness: value
@@ -23,8 +14,8 @@ export const filters: FilterControlType[] = [
   },
   {
     id: "Contrast",
-    min: 0,
-    max: 0.6,
+    min: -1,
+    max: 1,
     step: 0.002,
     newFilter: (value) => new fabricFilter.Contrast({
       contrast: value
@@ -41,8 +32,8 @@ export const filters: FilterControlType[] = [
   },
   {
     id: "Vibrance",
-    min: 0,
-    max: 0.6,
+    min: -1,
+    max: 1,
     step: 0.002,
     newFilter: (value) => new fabricFilter.Vibrance({
       vibrance: value
@@ -57,4 +48,13 @@ export const filters: FilterControlType[] = [
       blur: value
     }) as fabricFilterType.BaseFilter
   },
+  {
+    id: "Noise",
+    min: 0,
+    max: 100,
+    step: 1,
+    newFilter: (value) => new fabricFilter.Noise({
+      noise: value
+    }) as fabricFilterType.BaseFilter
+  }
 ]

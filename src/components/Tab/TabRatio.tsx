@@ -16,7 +16,7 @@ export default function TabRatio() {
           return (
             <button
               key={`ratio-${index}`}
-              aria-label={`change aspect ratio to ${ratio.name}`}
+              aria-label={`vaihda kuvasuhde ${ratio.name}`}
               className={clsx(
                 "cursor-pointer transition-colors rounded",
                 "flex flex-col items-center justify-center text-center",
@@ -30,7 +30,7 @@ export default function TabRatio() {
               )}
               onClick={() => {
                 changeRatio(index)
-                toast.success(`Ratio changed to ${ratio.name}`, { duration: 650, id: "toast-ratio" })
+                toast.success(`Kuvasuhde muutettu ${ratio.name}`, { duration: 650, id: "toast-ratio" })
               }}
             >
               <img src={ratio.icon} alt={ratio.name} />

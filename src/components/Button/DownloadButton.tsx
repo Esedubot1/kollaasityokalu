@@ -36,7 +36,7 @@ export default function DownloadButton() {
         disabled={uploadCount !== maxImageUploads}
       >
         <DownloadIcon className="mr-2" />
-        <span>Download <span className="inline sm:hidden md:inline">collage</span></span>
+        <span>Lataa <span className="inline sm:hidden md:inline">kollaasi</span></span>
       </button>
     </div>
   )

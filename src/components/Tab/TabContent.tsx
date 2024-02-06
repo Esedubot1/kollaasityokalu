@@ -16,9 +16,9 @@ export default function TabContent() {
       "flex items-center overflow-x-auto overflow-y-hidden",
       "sm:min-h-screen sm:mx-0 sm:block sm:overflow-x-hidden sm:overflow-y-auto"
     ])}>
-      {activeTab === "template" && <TabTemplate />}
-      {activeTab === "ratio" && <TabRatio />}
-      {activeTab === "more" && <TabFilters />}
+      {activeTab === "kanvas" && <TabTemplate />}
+      {activeTab === "kuvasuhde" && <TabRatio />}
+      {activeTab === "muokkaa" && <TabFilters />}
     </div>
   )
 }

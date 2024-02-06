@@ -32,11 +32,21 @@ export default function FilterControl(props: FilterControlTypeProps) {
         }
   )
 
+  const filterTranslations: Record<string, string> = {
+    "Brightness": "Kirkkaus",
+    "Contrast": "Kontrasti",
+    "Noise": "Kohina",
+    "Saturation": "Värikylläisyys",
+    "Vibrance": "Väriloisto",
+    "Blur": "Sumennus"
+    // Add translations for other filters as needed
+  };
+
   // actual range value
   const rangeValue = selectedImage.filters[filterTypeLower as LowercaseFilterIdType]
 
   // Compute the percentage based on the range value
-  const computePercentage = () => Math.round(((rangeValue - min) / (max - min)) * 100)
+  const computePercentage = () => Math.round((((rangeValue - min) / (max - min)) * 100) - 50)
 
   // Add or update the image filter when the range value changes
   const addFilter = async (filterValue: number) => {
@@ -96,7 +106,7 @@ export default function FilterControl(props: FilterControlTypeProps) {
               <span className="w-full text-center">
                 {selectedImageIndex !== null ? `${computePercentage()}` : "-"}
               </span>
-              <h3 className="w-full text-center text-sm font-medium">{id}</h3>
+              <h3 className="w-full text-center text-sm font-medium">{filterTranslations[id]}</h3>
             </button>
           )
           : (
@@ -118,9 +128,9 @@ export default function FilterControl(props: FilterControlTypeProps) {
 
                 <div className="grow mx-3">
                   <div className="flex flex-row w-full items-center transition-colors rounded">
-                    <h3 className="w-1/2 text-left font-medium">{id}</h3>
+                    <h3 className="w-1/2 text-left font-medium">{filterTranslations[id]}</h3>
                     <span className="w-1/2 text-right">
-                      {selectedImageIndex !== null ? `${computePercentage()}%` : "-"}
+                      {selectedImageIndex !== null ? `${computePercentage()}` : "-"}
                     </span>
                   </div>
 
@@ -148,9 +158,9 @@ export default function FilterControl(props: FilterControlTypeProps) {
   return (
     <div data-testid={filterTypeLower} className="border-b border-neutral-800 py-4">
       <div className="flex flex-row w-full items-center transition-colors rounded">
-        <h3 className="w-1/2 text-left font-medium">{id}</h3>
+        <h3 className="w-1/2 text-left font-medium">{filterTranslations[id]}</h3>
         <span className="w-1/2 text-right">
-          {selectedImageIndex !== null ? `${computePercentage()}%` : "-"}
+          {selectedImageIndex !== null ? `${computePercentage()}` : "-"}
         </span>
       </div>
 
