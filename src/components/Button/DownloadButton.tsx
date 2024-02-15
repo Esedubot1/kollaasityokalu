@@ -13,7 +13,7 @@ export default function DownloadButton() {
   const downloadImage = () => {
     if (canvas && linkRef.current) {
       canvas.discardActiveObject()
-      linkRef.current.href = canvas.toDataURL()
+      linkRef.current.href = canvas.toDataURL({multiplier: 10})
       linkRef.current.download = `collage-${new Date().getTime()}.png`
       linkRef.current.click()
       toast.success("Collage downloaded.", { id: "toast-download" })
