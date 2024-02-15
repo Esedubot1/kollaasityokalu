@@ -36,7 +36,7 @@ export default function TabTemplate() {
           return (
             <button
               key={`template-${index}`}
-              aria-label={`vaihda kanvas ${template.name}`}
+              aria-label={`vaihda kollaasi ${template.name}`}
               className={clsx(
                 "cursor-pointer transition-colors rounded",
                 "flex flex-col items-center justify-center text-center",
@@ -50,7 +50,7 @@ export default function TabTemplate() {
               )}
               onClick={() => {
                 changeTemplate(index)
-                toast.success(`Kanvas muutettu`, { duration: 650, id: "toast-template" })
+                toast.success(`Kollaasi muutettu`, { duration: 650, id: "toast-template" })
               }}
             >
               {<img src={template.icon} alt={template.name} />}

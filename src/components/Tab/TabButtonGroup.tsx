@@ -9,7 +9,7 @@ import TabButton from "@/components/Tab/TabButton"
 export default function TabButtonGroup() {
   const tabs: TabItem[] = [
     {
-      id: "kanvas",
+      id: "kollaasi",
       icon: <TemplateIcon />
     },
     {

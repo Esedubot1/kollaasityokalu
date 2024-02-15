@@ -6,7 +6,7 @@ const defaultState: CanvasStateType = {
   canvas: null,
   ratio: 0,
   template: 0,
-  tab: "kanvas",
+  tab: "kollaasi",
 }
 
 export const canvasSlice = createSlice({
