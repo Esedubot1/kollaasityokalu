@@ -124,7 +124,7 @@ export default function Canvas() {
               })
 
               // Switch to More tab, to show controls on active object
-              changeTabAction("more")
+              changeTabAction("muokkaa")
             }
 
             input.click()
@@ -147,7 +147,7 @@ export default function Canvas() {
       // 7. Attach event handler on object selection
       const handleImageSelect = (selected: CustomImageObject) => {
         // Change tab on select
-        changeTabAction("more")
+        changeTabAction("muokkaa")
 
         // Set selected image
         setSelectedImageAction(selected.id)
