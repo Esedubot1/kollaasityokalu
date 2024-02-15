@@ -119,7 +119,7 @@ export default function Canvas() {
               // Render in canvas
               canvas.remove(selectedCell)
               canvas.renderAll()
-              toast.success("Image successfully added.", {
+              toast.success("Kuva lisätty onnistuneesti", {
                 id: "toast-uploaded",
               })
 
