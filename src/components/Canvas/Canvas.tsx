@@ -35,10 +35,10 @@ export default function Canvas() {
   useEffect(() => {
     if (canvasRef.current && wrapperRef.current) {
       // 0. Calculate canvas ratio by initial client width
-      const panelWidth = 6000
-        /* wrapperRef.current.clientWidth > 640
+      const panelWidth = 
+        wrapperRef.current.clientWidth > 640
           ? 640 // fixed 640px canvas on >640px devices
-          : wrapperRef.current.clientWidth - 16 // 16px margin */
+          : wrapperRef.current.clientWidth - 16 // 16px margin
       const ratio = ASPECT_RATIOS[activeRatioIndex].canvas(panelWidth)
 
       // 1. Setup canvas
@@ -49,10 +49,8 @@ export default function Canvas() {
         selection: false,
         controlsAboveOverlay: false,
         allowTouchScrolling: true,
-        imageSmoothingEnabled: false
+        imageSmoothingEnabled: false,
       })
-
-      canvas.setDimensions({width: `${ratio.width * 0.12}px`, height: `${ratio.height * 0.12}px`}, {cssOnly: true})
 
       // 1.1 Clone canvas
       setCanvasAction(canvas)
