@@ -46,7 +46,7 @@ export default function FilterControl(props: FilterControlTypeProps) {
   const rangeValue = selectedImage.filters[filterTypeLower as LowercaseFilterIdType]
 
   // Compute the percentage based on the range value
-  const computePercentage = () => Math.round((((rangeValue - min) / (max - min)) * 100))
+  const computePercentage = () => Math.round(rangeValue * 100)
 
   // Add or update the image filter when the range value changes
   const addFilter = async (filterValue: number) => {
