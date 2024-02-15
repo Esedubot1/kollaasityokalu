@@ -74,7 +74,7 @@ export default function FilterControl(props: FilterControlTypeProps) {
   // Update the filter value when the range value changes
   const setValue = async (value: string) => {
     if (selectedImageIndex === null) {
-      toast("Please select an image to apply filter", { id: "no-image" })
+      toast("Valitse kuva käyttääksesi työkalua", { id: "no-image" })
       return
     }
 
