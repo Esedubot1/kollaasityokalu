@@ -52,6 +52,12 @@ export default function Canvas() {
         imageSmoothingEnabled: false,
       })
 
+      /* addEventListener("keydown", (e) => {
+        if(e.key === "Delete") {
+          canvas.remove(canvas.getActiveObject())
+        }
+      }) */
+
       // 1.1 Clone canvas
       setCanvasAction(canvas)
 
