@@ -1,6 +1,7 @@
 import { COLLAGE_TEMPLATES } from "@/constants/canvasConfig"
 import { useCanvasConfigData } from "@/hooks/useReduxData"
 import { useTemplateAction } from "@/hooks/useReduxAction"
+//import { useState, useEffect } from "react"
 
 import toast from "react-hot-toast"
 import clsx from "clsx"
@@ -8,6 +9,25 @@ import clsx from "clsx"
 export default function TabTemplate() {
   const { activeTemplateIndex } = useCanvasConfigData()
   const { changeTemplate } = useTemplateAction()
+  //const [addOutline, setAddOutline] = useState(false); // State to track whether outline should be added
+
+/*   const handleOutlineChange = (event) => {
+    setAddOutline(event.target.checked);
+  };
+
+  // Function to handle color selection
+  const handleColorChange = (color) => {
+    // Use the selected color
+  };
+
+  // Function to handle thickness selection
+  const handleThicknessChange = (event) => {
+    const thickness = event.target.value;
+    // Use the selected thickness
+
+
+  }; */
+
 
   return (
     <>
@@ -33,10 +53,38 @@ export default function TabTemplate() {
                 toast.success(`Kanvas muutettu`, { duration: 650, id: "toast-template" })
               }}
             >
-              <img src={template.icon} alt={template.name} />
+              {<img src={template.icon} alt={template.name} />}
             </button>
           )
         })}
+      {/*<div>
+        <input
+          type="checkbox"
+          checked={addOutline}
+          onChange={handleOutlineChange}
+        />
+        <label>Lisää reuna</label>
+      </div>
+      {addOutline && (
+        <div>
+          <label>Reunan väri:</label>
+          <input
+            type="color"
+            onChange={(e) => handleColorChange(e.target.value)}
+          />
+        </div>
+      )}
+      {addOutline && (
+        <div>
+          <label>Reunan paksuus:</label>
+          <input
+            type="range"
+            min="1"
+            max="10"
+            onChange={handleThicknessChange}
+          />
+        </div>
+      )}*/}
       </div>
     </>
   )
