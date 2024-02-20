@@ -37,8 +37,6 @@ export default function Canvas() {
    // Get border settings from Redux store
    const borderSettings = useSelector(selectBorderSettings);
 
-   console.log(borderSettings)
-
   // Canvas initialization
   useEffect(() => {
     if (canvasRef.current && wrapperRef.current) {
@@ -78,11 +76,13 @@ export default function Canvas() {
         const PROPERTIES = config.rectFabric(ratio.height, ratio.width)
         const cell = new fabric.Rect(PROPERTIES).set(OBJECT_LOCKED)
 
+        console.log(borderSettings)
+
         const border = new fabric.Rect({
           ...PROPERTIES,
           ...OBJECT_LOCKED,
-          width: PROPERTIES.width - borderSettings.borderThickness, // Reduce width by stroke width
-          height: PROPERTIES.height - borderSettings.borderThickness, // Reduce height by stroke width
+          width: PROPERTIES.width - borderSettings.borderThickness + 1, // Reduce width by stroke width
+          height: PROPERTIES.height - borderSettings.borderThickness + 1, // Reduce height by stroke width
           stroke: 'white', // Set the border color
           strokeWidth: borderSettings.borderThickness,  // Set the border width
           selectable: false, // Make it not selectable
@@ -170,9 +170,8 @@ export default function Canvas() {
 
         // 5. Render
         canvas.add(cell)
-        if (borderSettings.addBorder) {
-          canvas.add(border)
-        }
+        canvas.add(border)
+
       })
 
       // 6. Render all looped objects

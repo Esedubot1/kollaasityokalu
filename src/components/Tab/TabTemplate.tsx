@@ -97,8 +97,8 @@ export default function TabTemplate() {
           <label>Reunan paksuus:</label>
           <input
             type="range"
-            min="1"
-            max="10"
+            min="2"
+            max="20"
             value={thickness} // Set the value attribute to the thickness state
             onChange={handleThicknessChange}
           />
