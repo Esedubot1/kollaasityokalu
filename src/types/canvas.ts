@@ -38,5 +38,8 @@ export interface CanvasStateType {
   canvas: Canvas | null
   ratio: number
   template: number
-  tab: SelectedTabType
+  tab: SelectedTabType,
+  addBorder: boolean,
+  borderColor: string,
+  borderThickness: number
 }

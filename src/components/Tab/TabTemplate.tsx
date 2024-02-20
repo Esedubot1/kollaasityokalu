@@ -1,7 +1,7 @@
 import { COLLAGE_TEMPLATES } from "@/constants/canvasConfig"
 import { useCanvasConfigData } from "@/hooks/useReduxData"
-import { useTemplateAction } from "@/hooks/useReduxAction"
-//import { useState, useEffect } from "react"
+import { useTemplateAction, useCanvasAction } from "@/hooks/useReduxAction"
+import { useState, useEffect } from "react";
 
 import toast from "react-hot-toast"
 import clsx from "clsx"
@@ -9,25 +9,42 @@ import clsx from "clsx"
 export default function TabTemplate() {
   const { activeTemplateIndex } = useCanvasConfigData()
   const { changeTemplate } = useTemplateAction()
-  //const [addOutline, setAddOutline] = useState(false); // State to track whether outline should be added
+  const { setAddBorderAction, setBorderColorAction, setBorderThicknessAction } = useCanvasAction(); // Destructure the border settings actions
 
-/*   const handleOutlineChange = (event) => {
-    setAddOutline(event.target.checked);
+  const [addOutline, setAddOutline] = useState(false); // State to track whether outline should be added
+
+  // State to track the color, default to white
+  const [color, setColor] = useState("#ffffff");
+
+  // State to track the thickness, default to the smallest value
+  const [thickness, setThickness] = useState(1);
+
+  useEffect(() => {
+    // Set default border to false
+    setAddBorderAction(false)
+    // Set default color to white
+    setBorderColorAction("#ffffff");
+    // Set default thickness to the smallest value
+    setBorderThicknessAction(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleOutlineChange = (event: { target: { checked: boolean; }; }) => {
+    const addOutlineValue = event.target.checked;
+    setAddOutline(addOutlineValue);
+    setAddBorderAction(addOutlineValue); // Dispatch action to update addOutline state in Redux store
   };
 
-  // Function to handle color selection
-  const handleColorChange = (color) => {
-    // Use the selected color
+  const handleColorChange = (color: string) => {
+    setBorderColorAction(color); // Dispatch action to update color in Redux store
+    setColor(color)
   };
 
-  // Function to handle thickness selection
-  const handleThicknessChange = (event) => {
+  const handleThicknessChange = (event: { target: { value: any; }; }) => {
     const thickness = event.target.value;
-    // Use the selected thickness
-
-
-  }; */
-
+    setBorderThicknessAction(thickness); // Dispatch action to update thickness in Redux store
+    setThickness(thickness)
+  };
 
   return (
     <>
@@ -57,7 +74,7 @@ export default function TabTemplate() {
             </button>
           )
         })}
-      {/*<div>
+      <div>
         <input
           type="checkbox"
           checked={addOutline}
@@ -70,6 +87,7 @@ export default function TabTemplate() {
           <label>Reunan väri:</label>
           <input
             type="color"
+            value={color} // Set the value attribute to the color state
             onChange={(e) => handleColorChange(e.target.value)}
           />
         </div>
@@ -81,10 +99,11 @@ export default function TabTemplate() {
             type="range"
             min="1"
             max="10"
+            value={thickness} // Set the value attribute to the thickness state
             onChange={handleThicknessChange}
           />
         </div>
-      )}*/}
+      )}
       </div>
     </>
   )

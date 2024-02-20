@@ -1,12 +1,19 @@
 import { CanvasStateType, SelectedTabType } from "@/types"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import type { Canvas } from "fabric"
+import { BorderSettingsType } from "@/types/border"
 
-const defaultState: CanvasStateType = {
+import { createSelector } from '@reduxjs/toolkit';
+import { RootStateType } from './store';
+
+const defaultState: CanvasStateType & BorderSettingsType = {
   canvas: null,
   ratio: 0,
   template: 0,
   tab: "kollaasi",
+  addBorder: false,
+  borderColor: "#FFFFFF",
+  borderThickness: 1
 }
 
 export const canvasSlice = createSlice({
@@ -27,14 +34,38 @@ export const canvasSlice = createSlice({
       // @ts-ignore
       state.canvas = action.payload
     },
+     // New reducers for border settings
+     setAddBorder: (state, action: PayloadAction<boolean>) => {
+      state.addBorder = action.payload;
+    },
+    setBorderColor: (state, action: PayloadAction<string>) => {
+      state.borderColor = action.payload;
+    },
+    setBorderThickness: (state, action: PayloadAction<number>) => {
+      state.borderThickness = action.payload;
+    },
   },
 })
+
+export const selectCanvasState = (state: RootStateType) => state.canvas;
+
+export const selectBorderSettings = createSelector(
+  selectCanvasState,
+  (canvasState) => ({
+    addBorder: canvasState.addBorder,
+    borderColor: canvasState.borderColor,
+    borderThickness: canvasState.borderThickness,
+  })
+);
 
 export const {
   changeTemplateByIndex,
   changeRatioByIndex,
   changeTab,
   setCanvas,
+  setAddBorder,
+  setBorderColor,
+  setBorderThickness,
 } = canvasSlice.actions
 
 export default canvasSlice.reducer

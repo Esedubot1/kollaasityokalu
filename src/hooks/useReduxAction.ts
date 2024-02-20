@@ -3,7 +3,7 @@ import type { ImageFilterUpdate, SelectedTabType, UploadedImage } from "@/types"
 
 import { useAppDispatch } from "@/redux/hooks"
 import { clearAllImages, clearSelectedImage, newImage, setSelectedImage, setImageFilterValue } from "@/redux/selectedImageSlice"
-import { changeTab, changeRatioByIndex, changeTemplateByIndex, setCanvas } from "@/redux/canvasSlice"
+import { changeTab, changeRatioByIndex, changeTemplateByIndex, setCanvas, setAddBorder, setBorderColor, setBorderThickness } from "@/redux/canvasSlice"
 
 function useTabAction() {
   const dispatch = useAppDispatch()
@@ -53,11 +53,26 @@ function useCanvasAction() {
   const setSelectedImageAction = (id: string) => {
     dispatch(setSelectedImage(id))
   }
+  // Add actions related to border settings
+  const setAddBorderAction = (addBorder: boolean) => {
+    dispatch(setAddBorder(addBorder));
+  };
+  const setBorderColorAction = (color: string) => {
+    dispatch(setBorderColor(color));
+  };
+  const setBorderThicknessAction = (thickness: number) => {
+    dispatch(setBorderThickness(thickness));
+  };
+  
   return {
     addImageAction,
     clearSelectedImageAction,
     setCanvasAction,
     setSelectedImageAction,
+     // Return border settings actions
+     setAddBorderAction,
+     setBorderColorAction,
+     setBorderThicknessAction,
   }
 }
 

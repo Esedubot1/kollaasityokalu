@@ -10,6 +10,9 @@ import { useCanvasAction, useTabAction } from "@/hooks/useReduxAction"
 import toast from "react-hot-toast"
 import CanvasFooter from "@/components/Canvas/CanvasFooter"
 
+import { useSelector } from "react-redux";
+import { selectBorderSettings } from "@/redux/canvasSlice"; // Import the selector for border settings
+
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -26,10 +29,15 @@ export default function Canvas() {
     addImageAction,
     clearSelectedImageAction,
     setCanvasAction,
-    setSelectedImageAction
+    setSelectedImageAction,
   } = useCanvasAction()
 
   const { changeTabAction } = useTabAction()
+
+   // Get border settings from Redux store
+   const borderSettings = useSelector(selectBorderSettings);
+
+   console.log(borderSettings)
 
   // Canvas initialization
   useEffect(() => {
@@ -66,15 +74,18 @@ export default function Canvas() {
         const PROPERTIES = config.rectFabric(ratio.height, ratio.width)
         const cell = new fabric.Rect(PROPERTIES).set(OBJECT_LOCKED)
 
-        // Create border rectangle for the cell
+        const strokeWidth = borderSettings.borderThickness; // Set the stroke width
         const border = new fabric.Rect({
           ...PROPERTIES,
           ...OBJECT_LOCKED,
+          width: PROPERTIES.width - strokeWidth, // Reduce width by stroke width
+          height: PROPERTIES.height - strokeWidth, // Reduce height by stroke width
           stroke: 'white', // Set the border color
-          strokeWidth: 10,  // Set the border width
+          strokeWidth: strokeWidth,  // Set the border width
           selectable: false, // Make it not selectable
           evented: false, // Make it not trigger events
-          strokeUniform: true
+          strokeUniform: true,
+          color: borderSettings.borderColor,
         });
 
         // 3. Define image upload event handler
@@ -156,8 +167,9 @@ export default function Canvas() {
 
         // 5. Render
         canvas.add(cell)
-        canvas.add(border)
-
+        if (borderSettings.addBorder) {
+          canvas.add(border)
+        }
       })
 
       // 6. Render all looped objects
