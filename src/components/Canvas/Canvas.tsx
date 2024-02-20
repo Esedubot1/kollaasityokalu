@@ -16,7 +16,7 @@ export default function Canvas() {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
 
   // Get necessary Redux data via hooks
-  const { 
+  const {
     activeTemplateIndex,
     activeRatioIndex,
     activeTemplate
@@ -26,7 +26,7 @@ export default function Canvas() {
     addImageAction,
     clearSelectedImageAction,
     setCanvasAction,
-    setSelectedImageAction 
+    setSelectedImageAction
   } = useCanvasAction()
 
   const { changeTabAction } = useTabAction()
@@ -35,7 +35,7 @@ export default function Canvas() {
   useEffect(() => {
     if (canvasRef.current && wrapperRef.current) {
       // 0. Calculate canvas ratio by initial client width
-      const panelWidth = 
+      const panelWidth =
         wrapperRef.current.clientWidth > 640
           ? 640 // fixed 640px canvas on >640px devices
           : wrapperRef.current.clientWidth - 16 // 16px margin
@@ -65,6 +65,17 @@ export default function Canvas() {
       activeTemplate.config.forEach((config) => {
         const PROPERTIES = config.rectFabric(ratio.height, ratio.width)
         const cell = new fabric.Rect(PROPERTIES).set(OBJECT_LOCKED)
+
+        // Create border rectangle for the cell
+        const border = new fabric.Rect({
+          ...PROPERTIES,
+          ...OBJECT_LOCKED,
+          stroke: 'white', // Set the border color
+          strokeWidth: 10,  // Set the border width
+          selectable: false, // Make it not selectable
+          evented: false, // Make it not trigger events
+          strokeUniform: true
+        });
 
         // 3. Define image upload event handler
         const handleImageUpload = (selectedCell: fabric.Rect) => {
@@ -145,6 +156,8 @@ export default function Canvas() {
 
         // 5. Render
         canvas.add(cell)
+        canvas.add(border)
+
       })
 
       // 6. Render all looped objects
