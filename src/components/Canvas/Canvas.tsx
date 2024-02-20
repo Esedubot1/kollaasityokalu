@@ -60,6 +60,10 @@ export default function Canvas() {
         imageSmoothingEnabled: false,
       })
 
+      if (borderSettings.addBorder) {
+        canvas.preserveObjectStacking = true
+      }
+
       /* addEventListener("keydown", (e) => {
         if(e.key === "Delete") {
           canvas.remove(canvas.getActiveObject())
@@ -74,14 +78,13 @@ export default function Canvas() {
         const PROPERTIES = config.rectFabric(ratio.height, ratio.width)
         const cell = new fabric.Rect(PROPERTIES).set(OBJECT_LOCKED)
 
-        const strokeWidth = borderSettings.borderThickness; // Set the stroke width
         const border = new fabric.Rect({
           ...PROPERTIES,
           ...OBJECT_LOCKED,
-          width: PROPERTIES.width - strokeWidth, // Reduce width by stroke width
-          height: PROPERTIES.height - strokeWidth, // Reduce height by stroke width
+          width: PROPERTIES.width - borderSettings.borderThickness, // Reduce width by stroke width
+          height: PROPERTIES.height - borderSettings.borderThickness, // Reduce height by stroke width
           stroke: 'white', // Set the border color
-          strokeWidth: strokeWidth,  // Set the border width
+          strokeWidth: borderSettings.borderThickness,  // Set the border width
           selectable: false, // Make it not selectable
           evented: false, // Make it not trigger events
           strokeUniform: true,
