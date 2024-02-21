@@ -1,7 +1,7 @@
 import { COLLAGE_TEMPLATES } from "@/constants/canvasConfig"
 import { useCanvasConfigData } from "@/hooks/useReduxData"
 import { useTemplateAction, useCanvasAction } from "@/hooks/useReduxAction"
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import { useSelector } from "react-redux";
 import { selectBorderSettings } from "@/redux/canvasSlice";
@@ -39,7 +39,6 @@ export default function TabTemplate() {
   const handleThicknessChange = (event: { target: { value: any; }; }) => {
     const thickness = event.target.value;
     setBorderThicknessAction(thickness); // Dispatch action to update thickness in Redux store
-    setThickness(thickness)
   };
 
   return (
