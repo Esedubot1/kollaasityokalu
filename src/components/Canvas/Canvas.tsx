@@ -2,7 +2,7 @@ import * as fabric from "fabric"
 
 import { OBJECT_LOCKED, ASPECT_RATIOS } from "@/constants/canvasConfig"
 import { CustomImageObject } from "@/types"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { useCanvasConfigData } from "@/hooks/useReduxData"
 import { useCanvasAction, useTabAction } from "@/hooks/useReduxAction"
@@ -17,6 +17,10 @@ export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const prevBorderSettings = useRef<any>(null); // Store previous border settings
+  const borderRefs = useRef<fabric.Rect[]>([]);
+  const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
 
   // Get necessary Redux data via hooks
   const {
@@ -34,8 +38,8 @@ export default function Canvas() {
 
   const { changeTabAction } = useTabAction()
 
-   // Get border settings from Redux store
-   const borderSettings = useSelector(selectBorderSettings);
+  // Get border settings from Redux store
+  const borderSettings = useSelector(selectBorderSettings);
 
   // Canvas initialization
   useEffect(() => {
@@ -48,7 +52,7 @@ export default function Canvas() {
       const ratio = ASPECT_RATIOS[activeRatioIndex].canvas(panelWidth)
 
       // 1. Setup canvas
-      const canvas = new fabric.Canvas(canvasRef.current, {
+      const fabricCanvas = new fabric.Canvas(canvasRef.current, {
         backgroundColor: "#1a1a1a",
         width: ratio.width,
         height: ratio.height,
@@ -58,9 +62,7 @@ export default function Canvas() {
         imageSmoothingEnabled: false,
       })
 
-      if (borderSettings.addBorder) {
-        canvas.preserveObjectStacking = true
-      }
+      fabricCanvas.preserveObjectStacking = true
 
       /* addEventListener("keydown", (e) => {
         if(e.key === "Delete") {
@@ -69,27 +71,13 @@ export default function Canvas() {
       }) */
 
       // 1.1 Clone canvas
-      setCanvasAction(canvas)
+      setCanvasAction(fabricCanvas)
+      setCanvas(fabricCanvas)
 
       // 2. Setup objects & its properties
       activeTemplate.config.forEach((config) => {
         const PROPERTIES = config.rectFabric(ratio.height, ratio.width)
         const cell = new fabric.Rect(PROPERTIES).set(OBJECT_LOCKED)
-
-        console.log(borderSettings)
-
-        const border = new fabric.Rect({
-          ...PROPERTIES,
-          ...OBJECT_LOCKED,
-          width: PROPERTIES.width - borderSettings.borderThickness + 1, // Reduce width by stroke width
-          height: PROPERTIES.height - borderSettings.borderThickness + 1, // Reduce height by stroke width
-          stroke: 'white', // Set the border color
-          strokeWidth: borderSettings.borderThickness,  // Set the border width
-          selectable: false, // Make it not selectable
-          evented: false, // Make it not trigger events
-          strokeUniform: true,
-          color: borderSettings.borderColor,
-        });
 
         // 3. Define image upload event handler
         const handleImageUpload = (selectedCell: fabric.Rect) => {
@@ -141,15 +129,15 @@ export default function Canvas() {
                     },
                   })
 
-                  canvas.add(img)
-                  canvas.setActiveObject(img)
+                  fabricCanvas.add(img)
+                  fabricCanvas.setActiveObject(img)
                 }
                 addImage(dataUrl)
               }
 
               // Render in canvas
-              canvas.remove(selectedCell)
-              canvas.renderAll()
+              fabricCanvas.remove(selectedCell)
+              fabricCanvas.renderAll()
               toast.success("Kuva lisätty onnistuneesti", {
                 id: "toast-uploaded",
               })
@@ -169,13 +157,11 @@ export default function Canvas() {
         })
 
         // 5. Render
-        canvas.add(cell)
-        canvas.add(border)
-
+        fabricCanvas.add(cell)
       })
 
       // 6. Render all looped objects
-      canvas.renderAll()
+      fabricCanvas.renderAll()
 
       // 7. Attach event handler on object selection
       const handleImageSelect = (selected: CustomImageObject) => {
@@ -186,25 +172,108 @@ export default function Canvas() {
         setSelectedImageAction(selected.id)
       }
 
-      canvas.on("selection:created", ({ selected }) => {
+      fabricCanvas.on("selection:created", ({ selected }) => {
         handleImageSelect(selected[0] as CustomImageObject)
       })
 
-      canvas.on("selection:updated", ({ selected }) => {
+      fabricCanvas.on("selection:updated", ({ selected }) => {
         handleImageSelect(selected[0] as CustomImageObject)
       })
 
-      canvas.on("selection:cleared", () => {
+      fabricCanvas.on("selection:cleared", () => {
         clearSelectedImageAction()
       })
 
       // 8. Clean up the canvas when the component unmounts
       return () => {
-        canvas.dispose()
+        fabricCanvas.dispose()
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeRatioIndex, activeTemplateIndex])
+
+  console.log(borderSettings)
+  // Update canvas properties when borderSettings change
+  useEffect(() => {
+    if (canvas && prevBorderSettings.current !== null) {
+      // Compare current and previous border settings
+      const prevSettings = prevBorderSettings.current;
+      if (
+        prevSettings.addBorder !== borderSettings.addBorder ||
+        prevSettings.borderColor !== borderSettings.borderColor ||
+        prevSettings.borderThickness !== borderSettings.borderThickness
+      ) {
+        // Update canvas properties based on border settings
+        if (wrapperRef.current) {
+          const panelWidth =
+            wrapperRef.current.clientWidth > 640
+              ? 640 // fixed 640px canvas on >640px devices
+              : wrapperRef.current.clientWidth - 16; // 16px margin
+          const ratio = ASPECT_RATIOS[activeRatioIndex].canvas(panelWidth);
+
+          activeTemplate.config.forEach((config) => {
+            const PROPERTIES = config.rectFabric(ratio.height, ratio.width);
+
+            if (borderSettings.addBorder) {
+
+              const border = new fabric.Rect({
+                ...PROPERTIES,
+                width: PROPERTIES.width - borderSettings.borderThickness, // Reduce width by stroke width
+                height: PROPERTIES.height - borderSettings.borderThickness, // Reduce height by stroke width
+                stroke: borderSettings.borderColor, // Set the border color
+                strokeWidth: borderSettings.borderThickness, // Set the border width
+                selectable: false, // Make it not selectable
+                evented: false, // Make it not trigger events
+                strokeUniform: true,
+                fill: "", 
+              });
+
+             /*  const borderH = new fabric.Rect({
+                ...PROPERTIES,
+                width: PROPERTIES.width, // Reduce width by stroke width
+                height: borderSettings.borderThickness, // Reduce height by stroke width
+                fill: borderSettings.borderColor, // Set the border color
+                selectable: false, // Make it not selectable
+                evented: false, // Make it not trigger events
+              });
+              
+              const borderV = new fabric.Rect({
+                ...PROPERTIES,
+                width: borderSettings.borderThickness, // Reduce width by stroke width
+                height: PROPERTIES.height, // Reduce height by stroke width
+                fill: borderSettings.borderColor, // Set the border color
+                selectable: false, // Make it not selectable
+                evented: false, // Make it not trigger events
+              });
+
+              canvas.add(borderH);
+              canvas.add(borderV);
+
+
+              borderRefs.current.push(borderH); // Store reference to the added border
+              borderRefs.current.push(borderV); // Store reference to the added border */
+              canvas.add(border)
+              borderRefs.current.push(border); // Store reference to the added border
+            } else {
+              // Loop through stored border references and remove them from the canvas
+              borderRefs.current.forEach(border => canvas.remove(border));
+              // Clear the stored references
+              borderRefs.current = [];
+
+            }
+          });
+        }
+
+        // Redraw canvas
+        canvas.renderAll();
+        // Update previous border settings
+        prevBorderSettings.current = borderSettings;
+      }
+    } else {
+      // Initialize previous border settings
+      prevBorderSettings.current = borderSettings;
+    }
+  }, [canvas, borderSettings, activeRatioIndex, activeTemplate.config]);
 
   return (
     <div ref={wrapperRef}>

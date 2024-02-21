@@ -25,7 +25,7 @@ export default function TabTemplate() {
     // Set default color to white
     setBorderColorAction("#ffffff");
     // Set default thickness to the smallest value
-    setBorderThicknessAction(1);
+    setBorderThicknessAction(2);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
