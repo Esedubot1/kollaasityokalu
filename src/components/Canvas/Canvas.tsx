@@ -11,7 +11,7 @@ import toast from "react-hot-toast"
 import CanvasFooter from "@/components/Canvas/CanvasFooter"
 
 import { useSelector } from "react-redux";
-import { selectBorderSettings, setBorderThickness } from "@/redux/canvasSlice"; // Import the selector for border settings
+import { selectBorderSettings} from "@/redux/canvasSlice"; // Import the selector for border settings
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
