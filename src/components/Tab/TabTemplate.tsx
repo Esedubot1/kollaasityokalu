@@ -3,6 +3,9 @@ import { useCanvasConfigData } from "@/hooks/useReduxData"
 import { useTemplateAction, useCanvasAction } from "@/hooks/useReduxAction"
 import { useState, useEffect } from "react";
 
+import { useSelector } from "react-redux";
+import { selectBorderSettings } from "@/redux/canvasSlice";
+
 import toast from "react-hot-toast"
 import clsx from "clsx"
 
@@ -11,33 +14,26 @@ export default function TabTemplate() {
   const { changeTemplate } = useTemplateAction()
   const { setAddBorderAction, setBorderColorAction, setBorderThicknessAction } = useCanvasAction(); // Destructure the border settings actions
 
-  const [addOutline, setAddOutline] = useState(false); // State to track whether outline should be added
-
-  // State to track the color, default to white
-  const [color, setColor] = useState("#ffffff");
-
-  // State to track the thickness, default to the smallest value
-  const [thickness, setThickness] = useState(1);
+  const borderSettings = useSelector(selectBorderSettings);
 
   useEffect(() => {
     // Set default border to false
-    setAddBorderAction(false)
+    setAddBorderAction(borderSettings.addBorder)
     // Set default color to white
-    setBorderColorAction("#ffffff");
+    setBorderColorAction(borderSettings.borderColor);
     // Set default thickness to the smallest value
-    setBorderThicknessAction(2);
+    setBorderThicknessAction(borderSettings.borderThickness);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOutlineChange = (event: { target: { checked: boolean; }; }) => {
     const addOutlineValue = event.target.checked;
-    setAddOutline(addOutlineValue);
+    /* setAddOutline(addOutlineValue); */
     setAddBorderAction(addOutlineValue); // Dispatch action to update addOutline state in Redux store
   };
 
   const handleColorChange = (color: string) => {
     setBorderColorAction(color); // Dispatch action to update color in Redux store
-    setColor(color)
   };
 
   const handleThicknessChange = (event: { target: { value: any; }; }) => {
@@ -77,29 +73,29 @@ export default function TabTemplate() {
       <div>
         <input
           type="checkbox"
-          checked={addOutline}
+          checked={borderSettings.addBorder}
           onChange={handleOutlineChange}
         />
         <label>Lisää reuna</label>
       </div>
-      {addOutline && (
+      {borderSettings.addBorder && (
         <div>
           <label>Reunan väri:</label>
           <input
             type="color"
-            value={color} // Set the value attribute to the color state
+            value={borderSettings.borderColor} // Set the value attribute to the color state
             onChange={(e) => handleColorChange(e.target.value)}
           />
         </div>
       )}
-      {addOutline && (
+      {borderSettings.addBorder && (
         <div>
           <label>Reunan paksuus:</label>
           <input
             type="range"
             min="2"
             max="20"
-            value={thickness} // Set the value attribute to the thickness state
+            value={borderSettings.borderThickness} // Set the value attribute to the thickness state
             onChange={handleThicknessChange}
           />
         </div>

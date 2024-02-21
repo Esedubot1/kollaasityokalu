@@ -252,6 +252,7 @@ export default function Canvas() {
 
               borderRefs.current.push(borderH); // Store reference to the added border
               borderRefs.current.push(borderV); // Store reference to the added border */
+              
               canvas.add(border)
               borderRefs.current.push(border); // Store reference to the added border
             } else {
