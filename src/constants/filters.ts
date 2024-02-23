@@ -48,7 +48,7 @@ export const filters: FilterControlType[] = [
       blur: value
     }) as fabricFilterType.BaseFilter
   },
-  {
+ /*  {
     id: "Noise",
     min: 0,
     max: 100,
@@ -56,5 +56,5 @@ export const filters: FilterControlType[] = [
     newFilter: (value) => new fabricFilter.Noise({
       noise: value
     }) as fabricFilterType.BaseFilter
-  }
+  } */
 ]

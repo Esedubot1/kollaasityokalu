@@ -183,6 +183,7 @@ export default function FilterControl(props: FilterControlTypeProps) {
             className="w-full my-2"
           />
         )}
+      
       </div>
     </div>
   )

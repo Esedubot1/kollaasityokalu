@@ -16,9 +16,9 @@ export default function DownloadButton() {
       linkRef.current.href = canvas.toDataURL({multiplier: 10})
       linkRef.current.download = `collage-${new Date().getTime()}.png`
       linkRef.current.click()
-      toast.success("Collage downloaded.", { id: "toast-download" })
+      toast.success("Kollaasi ladattu", { id: "toast-download" })
     } else {
-      toast.error("Cannot download collage! :(", { id: "toast-download" })
+      toast.error("Kollaasia ei voi ladata! :(", { id: "toast-download" })
     }
   }
 
