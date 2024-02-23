@@ -48,7 +48,7 @@ export default function TabFilters() {
     const thickness = event.target.value;
     setBorderThicknessAction(thickness); // Dispatch action to update thickness in Redux store
   };
-  
+
   useEffect(() => {
     const handleResize = () => {
       const isMobileView = window.matchMedia('(max-width: 640px)').matches
@@ -64,27 +64,94 @@ export default function TabFilters() {
     }
   }, [])
 
+  if (isMobile) {
+    return (
+      <div>
+
+        <div>
+          <input
+            type="checkbox"
+            checked={borderSettings.addBorder}
+            onChange={handleOutlineChange}
+            style={{ transform: "scale(1.5)", marginLeft: "5px", }}
+            disabled={uploadCount !== maxImageUploads}
+          />
+
+        </div>
+        <label className={uploadCount !== maxImageUploads ? "text-gray-500" : ""}> Lisää reuna</label>
+
+        {/*{borderSettings.addBorder && (
+               
+                  <div>
+  
+                    <div>
+                      <label>Reunan väri:</label>
+                      <input
+                        type="color"
+                        value={borderSettings.borderColor} // Set the value attribute to the color state
+                        onChange={(e) => handleColorChange(e.target.value)}
+                      />
+                    </div>
+  
+                  </div>
+                
+              )}*/}
+        {borderSettings.addBorder && (
+
+          <div>
+            <label>Reunan paksuus:</label>
+            <input
+              id={'borderThicknessSlider'}
+              type="range"
+              min="1"
+              max="20"
+              value={borderSettings.borderThickness} // Set the value attribute to the thickness state
+              onChange={handleThicknessChange}
+            />
+          </div>
+
+        )}
+
+
+        <div className={clsx({
+          "w-full": true,
+          "flex flex-nowrap": isMobile,
+          "px-2": !isMobile
+        })}>
+          {filters.map((filter: FilterControlType, i: number) => {
+            return (
+              <FilterControl
+                key={`filter-${i}`}
+                id={filter.id}
+                min={filter.min}
+                max={filter.max}
+                step={filter.step}
+                newFilter={filter.newFilter}
+                isMobile={isMobile}
+                activeFilter={activeFilter}
+                setActiveFilter={setActiveFilter}
+              />
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
   return (
     <div>
-      <TableContainer>
-          <Table>
-            <TableBody>
-              <TableRow>
+      <div className="border-b border-neutral-800 py-4 px-2">
+        <div className={'mb-4'}>
+          <input
+            type="checkbox"
+            checked={borderSettings.addBorder}
+            onChange={handleOutlineChange}
+            style={{ transform: "scale(1.5)", marginLeft: "5px" }}
+            disabled={uploadCount !== maxImageUploads}
+          />
+          <label className={`w-1/2 text-left font-medium ${uploadCount !== maxImageUploads ? "text-gray-500" : ""} ml-2 `}>Lisää reuna</label>
+        </div>
+        {/*{borderSettings.addBorder && (
                 <div>
-                  <input
-                    type="checkbox"
-                    checked={borderSettings.addBorder}
-                    onChange={handleOutlineChange}
-                    style={{ transform: "scale(1.5)", marginLeft: "5px"}}
-                    disabled={uploadCount !== maxImageUploads}
-                  />
-                  <label className={uploadCount !== maxImageUploads ? "text-gray-500" : ""}> Lisää reuna</label>
-                </div>
-              </TableRow>
-              {/*{borderSettings.addBorder && (
-              <TableRow>
-                <div>
-
                   <div>
                     <label>Reunan väri:</label>
                     <input
@@ -93,48 +160,55 @@ export default function TabFilters() {
                       onChange={(e) => handleColorChange(e.target.value)}
                     />
                   </div>
-
                 </div>
-              </TableRow>
             )}*/}
-              {borderSettings.addBorder && (
-                <TableRow>
-                  <div>
-                    <label>Reunan paksuus:</label>
-                    <input
-                      type="range"
-                      min="1"
-                      max="20"
-                      value={borderSettings.borderThickness} // Set the value attribute to the thickness state
-                      onChange={handleThicknessChange}
-                    />
-                  </div>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-    <div className={clsx({
-      "w-full": true,
-      "flex flex-nowrap": isMobile,
-      "px-2": !isMobile
-    })}>
-      {filters.map((filter: FilterControlType, i: number) => {
-        return (
-          <FilterControl
-            key={`filter-${i}`}
-            id={filter.id}
-            min={filter.min}
-            max={filter.max}
-            step={filter.step}
-            newFilter={filter.newFilter}
-            isMobile={isMobile}
-            activeFilter={activeFilter}
-            setActiveFilter={setActiveFilter}
-          />
-        )
-      })}
-    </div>
-    </div>
+        {borderSettings.addBorder && (
+          <div>
+            <div className="flex flex-row w-full items-center transition-colors rounded">
+              <h3 className="w-1/2 text-left font-medium">Reunan paksuus</h3>
+              <span className="w-1/2 text-right">
+                {borderSettings.borderThickness}
+              </span>
+            </div>
+            <div className="w-full flex justify-center items-center">
+            {(
+              <input
+                id={'borderThicknessSlider'}
+                type="range"
+                min="1"
+                max="20"
+                value={borderSettings.borderThickness} // Set the value attribute to the thickness state
+                onChange={handleThicknessChange}
+                className="w-full my-2"
+              />
+            )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className={clsx({
+        "w-full": true,
+        "flex flex-nowrap": isMobile,
+        "px-2": !isMobile
+      })}>
+        {filters.map((filter: FilterControlType, i: number) => {
+          return (
+            <FilterControl
+              key={`filter-${i}`}
+              id={filter.id}
+              min={filter.min}
+              max={filter.max}
+              step={filter.step}
+              newFilter={filter.newFilter}
+              isMobile={isMobile}
+              activeFilter={activeFilter}
+              setActiveFilter={setActiveFilter}
+            />
+          )
+        })}
+      </div>
+    </div >
+
   )
 }
