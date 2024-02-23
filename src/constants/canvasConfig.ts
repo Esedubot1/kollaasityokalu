@@ -495,9 +495,9 @@ export const ASPECT_RATIOS: AspectRatioType[] = [
   },
   {
     name: "3:2",
-    nickname: "Pinterest Pin",
+    nickname: "Custom Ratio",
     canvas: (FIXED_WIDTH) => calculateWidthByAspectRatio(3, 2, FIXED_WIDTH),
-    icon: "data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_6_21)'%3E%3Crect x='0.5' y='10.5' width='29' height='19' stroke='white'/%3E%3Cg clip-path='url(%23clip1_6_21)'%3E%3Cpath d='M13.6014 27.9266H6.97553V21.3007L8.15162 21.3007L8.15162 26.7505L13.6014 26.7505V27.9266Z' fill='white'/%3E%3C/g%3E%3Cg clip-path='url(%23clip2_6_21)'%3E%3Cpath d='M16.3007 1.97552H22.9266V8.60139L21.7505 8.60139L21.7505 3.15161L16.3007 3.15161V1.97552Z' fill='white'/%3E%3C/g%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_6_21'%3E%3Crect width='30' height='30' fill='white'/%3E%3C/clipPath%3E%3CclipPath id='clip1_6_21'%3E%3Crect width='11.2445' height='11.2445' fill='white' transform='translate(3 23.951) rotate(-45)'/%3E%3C/clipPath%3E%3CclipPath id='clip2_6_21'%3E%3Crect width='11.2445' height='11.2445' fill='white' transform='translate(26.9021 5.95105) rotate(135)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A",
+    icon: "data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_7_2)'%3E%3Crect x='0.5' y='4.5' width='29' height='22' stroke='white'/%3E%3Cg clip-path='url(%23clip1_7_2)'%3E%3Cpath d='M8.6014 24.9266H1.97553V18.3007L3.15162 18.3007L3.15162 23.7505L8.6014 23.7505V24.9266Z' fill='white'/%3E%3C/g%3E%3Cg clip-path='url(%23clip2_7_2)'%3E%3Cpath d='M21.3007 5.97552H27.9266V12.6014L26.7505 12.6014L26.7505 7.15161L21.3007 7.15161V5.97552Z' fill='white'/%3E%3C/g%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_7_2'%3E%3Crect width='30' height='30' fill='white'/%3E%3C/clipPath%3E%3CclipPath id='clip1_7_2'%3E%3Crect width='11.2445' height='11.2445' fill='white' transform='translate(-2 20.951) rotate(-45)'/%3E%3C/clipPath%3E%3CclipPath id='clip2_7_2'%3E%3Crect width='11.2445' height='11.2445' fill='white' transform='translate(31.9021 9.95105) rotate(135)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A",
   },
 /*   {
     name: "3:1",
