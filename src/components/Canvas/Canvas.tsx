@@ -11,7 +11,7 @@ import toast from "react-hot-toast"
 import CanvasFooter from "@/components/Canvas/CanvasFooter"
 
 import { useSelector } from "react-redux";
-import { selectBorderSettings } from "@/redux/canvasSlice"; // Import the selector for border settings
+import { selectBorderSettings} from "@/redux/canvasSlice"; // Import the selector for border settings
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -211,6 +211,11 @@ export default function Canvas() {
               : wrapperRef.current.clientWidth - 16; // 16px margin
           const ratio = ASPECT_RATIOS[activeRatioIndex].canvas(panelWidth);
 
+           // Loop through stored border references and remove them from the canvas
+           borderRefs.current.forEach(border => canvas.remove(border));
+           // Clear the stored references
+           borderRefs.current = [];
+
           activeTemplate.config.forEach((config) => {
             const PROPERTIES = config.rectFabric(ratio.height, ratio.width);
 
@@ -218,8 +223,8 @@ export default function Canvas() {
 
               const border = new fabric.Rect({
                 ...PROPERTIES,
-                width: PROPERTIES.width - borderSettings.borderThickness, // Reduce width by stroke width
-                height: PROPERTIES.height - borderSettings.borderThickness, // Reduce height by stroke width
+                width: PROPERTIES.width - borderSettings.borderThickness + (borderSettings.borderThickness / 2), // Reduce width by stroke width
+                height: PROPERTIES.height - borderSettings.borderThickness + (borderSettings.borderThickness / 2), // Reduce height by stroke width
                 stroke: borderSettings.borderColor, // Set the border color
                 strokeWidth: borderSettings.borderThickness, // Set the border width
                 selectable: false, // Make it not selectable
@@ -227,32 +232,6 @@ export default function Canvas() {
                 strokeUniform: true,
                 fill: "", 
               });
-
-             /*  const borderH = new fabric.Rect({
-                ...PROPERTIES,
-                width: PROPERTIES.width, // Reduce width by stroke width
-                height: borderSettings.borderThickness, // Reduce height by stroke width
-                fill: borderSettings.borderColor, // Set the border color
-                selectable: false, // Make it not selectable
-                evented: false, // Make it not trigger events
-              });
-              
-              const borderV = new fabric.Rect({
-                ...PROPERTIES,
-                width: borderSettings.borderThickness, // Reduce width by stroke width
-                height: PROPERTIES.height, // Reduce height by stroke width
-                fill: borderSettings.borderColor, // Set the border color
-                selectable: false, // Make it not selectable
-                evented: false, // Make it not trigger events
-              });
-
-              canvas.add(borderH);
-              canvas.add(borderV);
-
-
-              borderRefs.current.push(borderH); // Store reference to the added border
-              borderRefs.current.push(borderV); // Store reference to the added border */
-              
               canvas.add(border)
               borderRefs.current.push(border); // Store reference to the added border
             } else {
