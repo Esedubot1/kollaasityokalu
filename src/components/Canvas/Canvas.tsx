@@ -61,21 +61,10 @@ export default function Canvas() {
 
       if (wrapperRef.current.clientWidth < panelWidth) {
         const scaledRatio = ASPECT_RATIOS[activeRatioIndex].canvas(wrapperRef.current.clientWidth)
-        fabricCanvas.setDimensions({width: scaledRatio.width - 16, height: scaledRatio.height - 16}, {cssOnly: true})
-      }
-
-      if (wrapperRef.current.clientWidth < panelWidth) {
-        const scaledRatio = ASPECT_RATIOS[activeRatioIndex].canvas(wrapperRef.current.clientWidth)
-        fabricCanvas.setDimensions({width: scaledRatio.width - 16, height: scaledRatio.height - 16}, {cssOnly: true})
+        canvas.setDimensions({width: scaledRatio.width - 16, height: scaledRatio.height - 16}, {cssOnly: true})
       }
 
       canvas.preserveObjectStacking = true
-
-      /* addEventListener("keydown", (e) => {
-        if(e.key === "Delete") {
-          canvas.remove(canvas.getActiveObject())
-        }
-      }) */
 
       // 1.1 Clone canvas
       setCanvasAction(canvas)
