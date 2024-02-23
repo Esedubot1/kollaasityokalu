@@ -206,10 +206,7 @@ export default function Canvas() {
       ) {
         // Update canvas properties based on border settings
         if (wrapperRef.current) {
-          const panelWidth =
-            wrapperRef.current.clientWidth > 640
-              ? 640 // fixed 640px canvas on >640px devices
-              : wrapperRef.current.clientWidth - 16; // 16px margin
+          const panelWidth = 640
           const ratio = ASPECT_RATIOS[activeRatioIndex].canvas(panelWidth);
 
           // Loop through stored border references and remove them from the canvas
