@@ -45,10 +45,7 @@ export default function Canvas() {
   useEffect(() => {
     if (canvasRef.current && wrapperRef.current) {
       // 0. Calculate canvas ratio by initial client width
-      const panelWidth =
-        wrapperRef.current.clientWidth > 640
-          ? 640 // fixed 640px canvas on >640px devices
-          : wrapperRef.current.clientWidth - 16 // 16px margin
+      const panelWidth = 640
       const ratio = ASPECT_RATIOS[activeRatioIndex].canvas(panelWidth)
 
       // 1. Setup canvas
@@ -61,6 +58,11 @@ export default function Canvas() {
         allowTouchScrolling: true,
         imageSmoothingEnabled: false,
       })
+
+      if (wrapperRef.current.clientWidth < panelWidth) {
+        const scaledRatio = ASPECT_RATIOS[activeRatioIndex].canvas(wrapperRef.current.clientWidth)
+        fabricCanvas.setDimensions({width: scaledRatio.width - 16, height: scaledRatio.height - 16}, {cssOnly: true})
+      }
 
       fabricCanvas.preserveObjectStacking = true
 
