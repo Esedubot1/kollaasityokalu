@@ -13,7 +13,7 @@ const defaultState: CanvasStateType & BorderSettingsType = {
   tab: "kollaasi",
   addBorder: false,
   borderColor: "#FFFFFF",
-  borderThickness: 2
+  borderThickness: 1
 }
 
 export const canvasSlice = createSlice({

@@ -192,7 +192,6 @@ export default function Canvas() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeRatioIndex, activeTemplateIndex])
 
-  console.log(borderSettings)
   // Update canvas properties when borderSettings change
   useEffect(() => {
     if (canvas && prevBorderSettings.current !== null) {
@@ -243,7 +242,6 @@ export default function Canvas() {
             }
           });
         }
-
         // Redraw canvas
         canvas.renderAll();
         // Update previous border settings
