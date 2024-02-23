@@ -20,7 +20,7 @@ export default function Canvas() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const prevBorderSettings = useRef<any>(null); // Store previous border settings
   const borderRefs = useRef<fabric.Rect[]>([]);
-  const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
+  const [canvasState, setCanvasState] = useState<fabric.Canvas | null>(null);
 
   // Get necessary Redux data via hooks
   const {
@@ -52,7 +52,7 @@ export default function Canvas() {
       const ratio = ASPECT_RATIOS[activeRatioIndex].canvas(panelWidth)
 
       // 1. Setup canvas
-      const fabricCanvas = new fabric.Canvas(canvasRef.current, {
+      const canvas = new fabric.Canvas(canvasRef.current, {
         backgroundColor: "#1a1a1a",
         width: ratio.width,
         height: ratio.height,
@@ -62,7 +62,7 @@ export default function Canvas() {
         imageSmoothingEnabled: false,
       })
 
-      fabricCanvas.preserveObjectStacking = true
+      canvas.preserveObjectStacking = true
 
       /* addEventListener("keydown", (e) => {
         if(e.key === "Delete") {
@@ -71,8 +71,8 @@ export default function Canvas() {
       }) */
 
       // 1.1 Clone canvas
-      setCanvasAction(fabricCanvas)
-      setCanvas(fabricCanvas)
+      setCanvasAction(canvas)
+      setCanvasState(canvas)
 
       // 2. Setup objects & its properties
       activeTemplate.config.forEach((config) => {
@@ -129,15 +129,15 @@ export default function Canvas() {
                     },
                   })
 
-                  fabricCanvas.add(img)
-                  fabricCanvas.setActiveObject(img)
+                  canvas.add(img)
+                  canvas.setActiveObject(img)
                 }
                 addImage(dataUrl)
               }
 
               // Render in canvas
-              fabricCanvas.remove(selectedCell)
-              fabricCanvas.renderAll()
+              canvas.remove(selectedCell)
+              canvas.renderAll()
               toast.success("Kuva lisätty onnistuneesti", {
                 id: "toast-uploaded",
               })
@@ -157,11 +157,11 @@ export default function Canvas() {
         })
 
         // 5. Render
-        fabricCanvas.add(cell)
+        canvas.add(cell)
       })
 
       // 6. Render all looped objects
-      fabricCanvas.renderAll()
+      canvas.renderAll()
 
       // 7. Attach event handler on object selection
       const handleImageSelect = (selected: CustomImageObject) => {
@@ -172,21 +172,21 @@ export default function Canvas() {
         setSelectedImageAction(selected.id)
       }
 
-      fabricCanvas.on("selection:created", ({ selected }) => {
+      canvas.on("selection:created", ({ selected }) => {
         handleImageSelect(selected[0] as CustomImageObject)
       })
 
-      fabricCanvas.on("selection:updated", ({ selected }) => {
+      canvas.on("selection:updated", ({ selected }) => {
         handleImageSelect(selected[0] as CustomImageObject)
       })
 
-      fabricCanvas.on("selection:cleared", () => {
+      canvas.on("selection:cleared", () => {
         clearSelectedImageAction()
       })
 
       // 8. Clean up the canvas when the component unmounts
       return () => {
-        fabricCanvas.dispose()
+        canvas.dispose()
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -194,7 +194,7 @@ export default function Canvas() {
 
   // Update canvas properties when borderSettings change
   useEffect(() => {
-    if (canvas && prevBorderSettings.current !== null) {
+    if (canvasState && prevBorderSettings.current !== null) {
       // Compare current and previous border settings
       const prevSettings = prevBorderSettings.current;
       if (
@@ -211,7 +211,7 @@ export default function Canvas() {
           const ratio = ASPECT_RATIOS[activeRatioIndex].canvas(panelWidth);
 
           // Loop through stored border references and remove them from the canvas
-          borderRefs.current.forEach(border => canvas.remove(border));
+          borderRefs.current.forEach(border => canvasState.remove(border));
           // Clear the stored references
           borderRefs.current = [];
 
@@ -231,11 +231,11 @@ export default function Canvas() {
                 strokeUniform: true,
                 fill: "",
               });
-              canvas.add(border)
+              canvasState.add(border)
               borderRefs.current.push(border); // Store reference to the added border
             } else {
               // Loop through stored border references and remove them from the canvas
-              borderRefs.current.forEach(border => canvas.remove(border));
+              borderRefs.current.forEach(border => canvasState.remove(border));
               // Clear the stored references
               borderRefs.current = [];
 
@@ -243,7 +243,7 @@ export default function Canvas() {
           });
         }
         // Redraw canvas
-        canvas.renderAll();
+        canvasState.renderAll();
         // Update previous border settings
         prevBorderSettings.current = borderSettings;
       }
@@ -251,7 +251,7 @@ export default function Canvas() {
       // Initialize previous border settings
       prevBorderSettings.current = borderSettings;
     }
-  }, [canvas, borderSettings, activeRatioIndex, activeTemplate.config]);
+  }, [canvasState, borderSettings, activeRatioIndex, activeTemplate.config]);
 
   return (
     <div ref={wrapperRef}>

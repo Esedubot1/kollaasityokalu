@@ -9,6 +9,11 @@ import { selectBorderSettings } from "@/redux/canvasSlice";
 import toast from "react-hot-toast"
 import clsx from "clsx"
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import TableRow from '@mui/material/TableRow';
+
 export default function TabTemplate() {
   const { activeTemplateIndex } = useCanvasConfigData()
   const { changeTemplate } = useTemplateAction()
@@ -32,9 +37,9 @@ export default function TabTemplate() {
     setAddBorderAction(addOutlineValue); // Dispatch action to update addOutline state in Redux store
   };
 
- /*  const handleColorChange = (color: string) => {
-    setBorderColorAction(color); // Dispatch action to update color in Redux store
-  }; */
+  /*  const handleColorChange = (color: string) => {
+     setBorderColorAction(color); // Dispatch action to update color in Redux store
+   }; */
 
   const handleThicknessChange = (event: { target: { value: any; }; }) => {
     const thickness = event.target.value;
@@ -69,36 +74,55 @@ export default function TabTemplate() {
             </button>
           )
         })}
-      <div>
-        <input
-          type="checkbox"
-          checked={borderSettings.addBorder}
-          onChange={handleOutlineChange}
-        />
-        <label>Lisää reuna</label>
-      </div>
-      {/*{borderSettings.addBorder && (
-        <div>
-          <label>Reunan väri:</label>
-          <input
-            type="color"
-            value={borderSettings.borderColor} // Set the value attribute to the color state
-            onChange={(e) => handleColorChange(e.target.value)}
-          />
-        </div>
-      )}*/}
-      {borderSettings.addBorder && (
-        <div>
-          <label>Reunan paksuus:</label>
-          <input
-            type="range"
-            min="1"
-            max="20"
-            value={borderSettings.borderThickness} // Set the value attribute to the thickness state
-            onChange={handleThicknessChange}
-          />
-        </div>
-      )}
+
+        <TableContainer>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <div>
+                  <input
+                    type="checkbox"
+                    checked={borderSettings.addBorder}
+                    onChange={handleOutlineChange}
+                    style={{ transform: "scale(1.5)", marginLeft: "5px"}}
+                    
+                  />
+                  <label> Lisää reuna</label>
+                </div>
+              </TableRow>
+              {/*{borderSettings.addBorder && (
+              <TableRow>
+                <div>
+
+                  <div>
+                    <label>Reunan väri:</label>
+                    <input
+                      type="color"
+                      value={borderSettings.borderColor} // Set the value attribute to the color state
+                      onChange={(e) => handleColorChange(e.target.value)}
+                    />
+                  </div>
+
+                </div>
+              </TableRow>
+            )}*/}
+              {borderSettings.addBorder && (
+                <TableRow>
+                  <div>
+                    <label>Reunan paksuus:</label>
+                    <input
+                      type="range"
+                      min="1"
+                      max="20"
+                      value={borderSettings.borderThickness} // Set the value attribute to the thickness state
+                      onChange={handleThicknessChange}
+                    />
+                  </div>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </>
   )
