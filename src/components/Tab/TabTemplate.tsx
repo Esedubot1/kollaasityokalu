@@ -32,9 +32,9 @@ export default function TabTemplate() {
     setAddBorderAction(addOutlineValue); // Dispatch action to update addOutline state in Redux store
   };
 
-  const handleColorChange = (color: string) => {
+ /*  const handleColorChange = (color: string) => {
     setBorderColorAction(color); // Dispatch action to update color in Redux store
-  };
+  }; */
 
   const handleThicknessChange = (event: { target: { value: any; }; }) => {
     const thickness = event.target.value;
@@ -77,7 +77,7 @@ export default function TabTemplate() {
         />
         <label>Lisää reuna</label>
       </div>
-      {borderSettings.addBorder && (
+      {/*{borderSettings.addBorder && (
         <div>
           <label>Reunan väri:</label>
           <input
@@ -86,7 +86,7 @@ export default function TabTemplate() {
             onChange={(e) => handleColorChange(e.target.value)}
           />
         </div>
-      )}
+      )}*/}
       {borderSettings.addBorder && (
         <div>
           <label>Reunan paksuus:</label>

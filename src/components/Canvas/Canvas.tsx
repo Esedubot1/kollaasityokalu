@@ -224,7 +224,7 @@ export default function Canvas() {
                 ...PROPERTIES,
                 width: PROPERTIES.width - borderSettings.borderThickness * 2,
                 height: PROPERTIES.height - borderSettings.borderThickness * 2,
-                stroke: borderSettings.borderColor, // Set the border color
+                stroke: 'white', // Set the border color
                 strokeWidth: borderSettings.borderThickness * 2, // Set the border width
                 selectable: false, // Make it not selectable
                 evented: false, // Make it not trigger events
