@@ -24,7 +24,6 @@ export default function FilterControl(props: FilterControlTypeProps) {
         filters: {
           brightness: 0,
           contrast: 0,
-          noise: 0,
           saturation: 0,
           vibrance: 0,
           blur: 0,
@@ -47,11 +46,7 @@ export default function FilterControl(props: FilterControlTypeProps) {
 
   // Compute the percentage based on the range value
   const computePercentage = () => {
-    if (filterTypeLower === 'noise') {
-      return Math.round(rangeValue);
-    } else {
       return Math.round(rangeValue * 100);
-    }
   }
 
   // Add or update the image filter when the range value changes

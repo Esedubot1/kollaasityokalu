@@ -3,7 +3,6 @@ import type { filters } from "fabric"
 export type FilterIdType =
   | "Brightness"
   | "Contrast"
-  | "Noise"
   | "Saturation"
   | "Vibrance"
   | "Blur"
@@ -11,7 +10,6 @@ export type FilterIdType =
 export type FilterListType = 
   | filters.Brightness
   | filters.Contrast
-  | filters.Noise
   | filters.Saturation
   | filters.Vibrance
   | filters.Pixelate
