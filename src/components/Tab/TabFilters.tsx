@@ -16,15 +16,13 @@ export default function TabFilters() {
   const [borderControlOn, setBorderControlOn] = useState(false)
   const { uploadCount, maxImageUploads } = useCanvasImageData()
 
-  const { setAddBorderAction, setBorderColorAction, setBorderThicknessAction } = useCanvasAction(); // Destructure the border settings actions
+  const { setAddBorderAction, setBorderThicknessAction } = useCanvasAction(); // Destructure the border settings actions
 
   const borderSettings = useSelector(selectBorderSettings);
 
   useEffect(() => {
     // Set default border to false
     setAddBorderAction(borderSettings.addBorder)
-    // Set default color to white
-    setBorderColorAction(borderSettings.borderColor);
     // Set default thickness to the smallest value
     setBorderThicknessAction(borderSettings.borderThickness);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,10 +33,6 @@ export default function TabFilters() {
     /* setAddOutline(addOutlineValue); */
     setAddBorderAction(addOutlineValue); // Dispatch action to update addOutline state in Redux store
   };
-
-  /*  const handleColorChange = (color: string) => {
-     setBorderColorAction(color); // Dispatch action to update color in Redux store
-   }; */
 
   const handleThicknessChange = (event: { target: { value: any; }; }) => {
     const thickness = event.target.value;
@@ -169,18 +163,6 @@ export default function TabFilters() {
           />
           <label className={`w-1/2 text-left font-medium ${uploadCount !== maxImageUploads ? "text-gray-500" : ""} ml-2 `}>Lisää reuna</label>
         </div>
-        {/*{borderSettings.addBorder && (
-                <div>
-                  <div>
-                    <label>Reunan väri:</label>
-                    <input
-                      type="color"
-                      value={borderSettings.borderColor} // Set the value attribute to the color state
-                      onChange={(e) => handleColorChange(e.target.value)}
-                    />
-                  </div>
-                </div>
-            )}*/}
         {borderSettings.addBorder && (
           <div>
             <div className="flex flex-row w-full items-center transition-colors rounded">

@@ -1,6 +1,6 @@
 import { ASPECT_RATIOS } from "@/constants/canvasConfig"
 import { useCanvasConfigData } from "@/hooks/useReduxData"
-import { useRatioAction } from "@/hooks/useReduxAction"
+import { useRatioAction, useCanvasAction} from "@/hooks/useReduxAction"
 
 import toast from "react-hot-toast"
 import clsx from "clsx"
@@ -8,6 +8,7 @@ import clsx from "clsx"
 export default function TabRatio() {
   const { activeRatioIndex } = useCanvasConfigData()
   const { changeRatio } = useRatioAction()
+  const { setAddBorderAction } = useCanvasAction()
 
   return (
     <>
@@ -30,6 +31,7 @@ export default function TabRatio() {
               )}
               onClick={() => {
                 changeRatio(index)
+                setAddBorderAction(false)
                 toast.success(`Kuvasuhde muutettu ${ratio.name}`, { duration: 650, id: "toast-ratio" })
               }}
             >

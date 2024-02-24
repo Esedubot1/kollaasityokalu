@@ -1,6 +1,6 @@
 import { COLLAGE_TEMPLATES } from "@/constants/canvasConfig"
 import { useCanvasConfigData } from "@/hooks/useReduxData"
-import { useTemplateAction } from "@/hooks/useReduxAction"
+import { useTemplateAction, useCanvasAction } from "@/hooks/useReduxAction"
 
 import toast from "react-hot-toast"
 import clsx from "clsx"
@@ -8,6 +8,7 @@ import clsx from "clsx"
 export default function TabTemplate() {
   const { activeTemplateIndex } = useCanvasConfigData()
   const { changeTemplate } = useTemplateAction()
+  const { setAddBorderAction } = useCanvasAction()
 
   return (
     <>
@@ -30,6 +31,7 @@ export default function TabTemplate() {
               )}
               onClick={() => {
                 changeTemplate(index)
+                setAddBorderAction(false)
                 toast.success(`Kollaasi muutettu`, { duration: 650, id: "toast-template" })
               }}
             >
